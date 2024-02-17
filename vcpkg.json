@@ -1,0 +1,201 @@
+{
+  "name" : "openai",
+  "version-string" : "1.0.0",
+  "builtin-baseline" : "5c5edf4941f7dc8ef061363b26208f3dec95c88a",
+  "dependencies" : [ {
+    "name" : "benchmark",
+    "version>=" : "1.8.3#2"
+  }, {
+    "name" : "boost-algorithm",
+    "version>=" : "1.84.0"
+  }, {
+    "name" : "boost-align",
+    "version>=" : "1.84.0"
+  }, {
+    "name" : "boost-array",
+    "version>=" : "1.84.0"
+  }, {
+    "name" : "boost-asio",
+    "version>=" : "1.84.0"
+  }, {
+    "name" : "boost-assert",
+    "version>=" : "1.84.0"
+  }, {
+    "name" : "boost-beast",
+    "version>=" : "1.84.0"
+  }, {
+    "name" : "boost-bind",
+    "version>=" : "1.84.0"
+  }, {
+    "name" : "boost-build",
+    "version>=" : "1.84.0"
+  }, {
+    "name" : "boost-concept-check",
+    "version>=" : "1.84.0"
+  }, {
+    "name" : "boost-config",
+    "version>=" : "1.84.0"
+  }, {
+    "name" : "boost-container-hash",
+    "version>=" : "1.84.0"
+  }, {
+    "name" : "boost-container",
+    "version>=" : "1.84.0"
+  }, {
+    "name" : "boost-context",
+    "version>=" : "1.84.0"
+  }, {
+    "name" : "boost-conversion",
+    "version>=" : "1.84.0"
+  }, {
+    "name" : "boost-core",
+    "version>=" : "1.84.0"
+  }, {
+    "name" : "boost-coroutine",
+    "version>=" : "1.84.0"
+  }, {
+    "name" : "boost-date-time",
+    "version>=" : "1.84.0"
+  }, {
+    "name" : "boost-describe",
+    "version>=" : "1.84.0"
+  }, {
+    "name" : "boost-detail",
+    "version>=" : "1.84.0"
+  }, {
+    "name" : "boost-endian",
+    "version>=" : "1.84.0"
+  }, {
+    "name" : "boost-exception",
+    "version>=" : "1.84.0"
+  }, {
+    "name" : "boost-function-types",
+    "version>=" : "1.84.0"
+  }, {
+    "name" : "boost-function",
+    "version>=" : "1.84.0"
+  }, {
+    "name" : "boost-functional",
+    "version>=" : "1.84.0"
+  }, {
+    "name" : "boost-fusion",
+    "version>=" : "1.84.0"
+  }, {
+    "name" : "boost-integer",
+    "version>=" : "1.84.0"
+  }, {
+    "name" : "boost-intrusive",
+    "version>=" : "1.84.0"
+  }, {
+    "name" : "boost-io",
+    "version>=" : "1.84.0"
+  }, {
+    "name" : "boost-iterator",
+    "version>=" : "1.84.0"
+  }, {
+    "name" : "boost-lexical-cast",
+    "version>=" : "1.84.0"
+  }, {
+    "name" : "boost-logic",
+    "version>=" : "1.84.0"
+  }, {
+    "name" : "boost-modular-build-helper",
+    "version>=" : "1.84.0#2"
+  }, {
+    "name" : "boost-move",
+    "version>=" : "1.84.0"
+  }, {
+    "name" : "boost-mp11",
+    "version>=" : "1.84.0"
+  }, {
+    "name" : "boost-mpl",
+    "version>=" : "1.84.0"
+  }, {
+    "name" : "boost-numeric-conversion",
+    "version>=" : "1.84.0"
+  }, {
+    "name" : "boost-optional",
+    "version>=" : "1.84.0"
+  }, {
+    "name" : "boost-pool",
+    "version>=" : "1.84.0"
+  }, {
+    "name" : "boost-predef",
+    "version>=" : "1.84.0"
+  }, {
+    "name" : "boost-preprocessor",
+    "version>=" : "1.84.0"
+  }, {
+    "name" : "boost-range",
+    "version>=" : "1.84.0"
+  }, {
+    "name" : "boost-regex",
+    "version>=" : "1.84.0"
+  }, {
+    "name" : "boost-smart-ptr",
+    "version>=" : "1.84.0"
+  }, {
+    "name" : "boost-static-assert",
+    "version>=" : "1.84.0"
+  }, {
+    "name" : "boost-static-string",
+    "version>=" : "1.84.0"
+  }, {
+    "name" : "boost-system",
+    "version>=" : "1.84.0"
+  }, {
+    "name" : "boost-throw-exception",
+    "version>=" : "1.84.0"
+  }, {
+    "name" : "boost-tokenizer",
+    "version>=" : "1.84.0"
+  }, {
+    "name" : "boost-tuple",
+    "version>=" : "1.84.0"
+  }, {
+    "name" : "boost-type-index",
+    "version>=" : "1.84.0"
+  }, {
+    "name" : "boost-type-traits",
+    "version>=" : "1.84.0"
+  }, {
+    "name" : "boost-typeof",
+    "version>=" : "1.84.0"
+  }, {
+    "name" : "boost-uninstall",
+    "version>=" : "1.84.0"
+  }, {
+    "name" : "boost-unordered",
+    "version>=" : "1.84.0"
+  }, {
+    "name" : "boost-utility",
+    "version>=" : "1.84.0"
+  }, {
+    "name" : "boost-variant2",
+    "version>=" : "1.84.0"
+  }, {
+    "name" : "boost-vcpkg-helpers",
+    "version>=" : "1.84.0"
+  }, {
+    "name" : "boost-winapi",
+    "version>=" : "1.84.0"
+  }, {
+    "name" : "extendedcpp",
+    "version>=" : "1.1.1#2"
+  }, {
+    "name" : "gtest",
+    "version>=" : "1.14.0"
+  }, {
+    "name" : "openssl",
+    "version>=" : "3.2.1"
+  }, {
+    "name" : "vcpkg-cmake-config",
+    "version>=" : "2022-02-06#1"
+  }, {
+    "name" : "vcpkg-cmake-get-vars",
+    "version>=" : "2023-12-31"
+  }, {
+    "name" : "vcpkg-cmake",
+    "version>=" : "2023-05-04"
+  } ]
+}
