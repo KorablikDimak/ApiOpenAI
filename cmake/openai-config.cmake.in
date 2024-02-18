@@ -27,6 +27,5 @@ if(NOT TARGET OpenAI::OpenAI)
     endif()
 
     import_targets(${type})
-    check_required_components(OpenAI)
     message("-- Found ${type} ApiOpenAI (version ${${CMAKE_FIND_PACKAGE_NAME}_VERSION})")
 endif()
