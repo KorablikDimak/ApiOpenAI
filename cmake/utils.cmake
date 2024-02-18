@@ -6,13 +6,11 @@ endmacro()
 
 function(set_public_include_directories)
     foreach(target ${ARGN})
-        target_include_directories(${target} PUBLIC
+        target_include_directories(${target} PUBLIC ${OPENSSL_INCLUDE_DIR} ${Boost_INCLUDE_DIRS}
                 "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>"
                 "$<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/include>"
                 "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>"
-                PRIVATE "${PROJECT_SOURCE_DIR}/src"
-                ${OPENSSL_INCLUDE_DIR}
-                ${Boost_INCLUDE_DIRS})
+                PRIVATE "${PROJECT_SOURCE_DIR}/src")
     endforeach()
 endfunction()
 
