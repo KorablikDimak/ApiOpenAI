@@ -61,12 +61,12 @@ set(OpenAI_SOURCE
 add_library(OpenAI ${OpenAI_INCLUDES} ${OpenAI_SOURCE})
 add_library(OpenAI::OpenAI ALIAS OpenAI)
 
+find_package(OpenSSL REQUIRED)
+find_package(Boost REQUIRED)
+find_package(ExtendedCpp REQUIRED)
+
 set_public_include_directories(OpenAI)
 set_targets_version(OpenAI)
-
-find_package(Boost REQUIRED)
-find_package(OpenSSL REQUIRED)
-find_package(ExtendedCpp REQUIRED)
 
 target_link_libraries(OpenAI PRIVATE
         ExtendedCpp::Json
