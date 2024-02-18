@@ -78,6 +78,12 @@ if(MINGW)
     target_link_libraries(OpenAI PRIVATE ws2_32)
 endif()
 
+if(MSVC)
+    target_compile_options(OpenAI PRIVATE /bigobj)
+elseif(CMAKE_BUILD_TYPE MATCHES "Debug")
+    target_compile_options(OpenAI PRIVATE -O1 -Wa,-mbig-obj)
+endif()
+
 if(OpenAI_INSTALL AND NOT CMAKE_SKIP_INSTALL_RULES)
     configure_package_config_file(cmake/openai-config.cmake.in openai-config.cmake
             INSTALL_DESTINATION "${OpenAI_INSTALL_CMAKEDIR}")
