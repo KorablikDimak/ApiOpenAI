@@ -94,6 +94,10 @@ set_target_properties(OpenAI PROPERTIES
 
 target_link_libraries(OpenAI PRIVATE ExtendedCpp::Json ExtendedCpp::Common ${OPENSSL_LIBRARIES} ${Boost_LIBRARIES})
 
+if(MINGW)
+    target_link_libraries(OpenAI PRIVATE ws2_32)
+endif()
+
 if(OpenAI_INSTALL AND NOT CMAKE_SKIP_INSTALL_RULES)
     include(CMakePackageConfigHelpers)
     configure_package_config_file(cmake/openai-config.cmake.in openai-config.cmake
