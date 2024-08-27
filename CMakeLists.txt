@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.5)
 
 project(OpenAI
-        VERSION 1.1.1
+        VERSION 1.1.2
         DESCRIPTION "Library for connect to open ai api"
         LANGUAGES CXX)
 
@@ -20,6 +20,7 @@ endif()
 string(COMPARE EQUAL "${CMAKE_SOURCE_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}" is_top_level)
 
 option(BUILD_SHARED_LIBS "Build libs as shared" ON)
+option(OpenAI_BUILD_TESTS "Build OpenAI tests" OFF)
 option(OpenAI_INSTALL "Generate target for installing ApiOpenAI" ${is_top_level})
 set_if_undefined(OpenAI_INSTALL_CMAKEDIR
         "${CMAKE_INSTALL_LIBDIR}/openai" CACHE STRING
@@ -108,4 +109,17 @@ if(OpenAI_INSTALL AND NOT CMAKE_SKIP_INSTALL_RULES)
             DESTINATION ${OpenAI_INSTALL_CMAKEDIR})
 
     install_projects(OpenAI)
+endif()
+
+if(OpenAI_BUILD_TESTS)
+    enable_testing()
+    add_subdirectory(tests/OpenAI)
+
+    if(BUILD_SHARED_LIBS)
+        add_custom_command(
+                TARGET OpenAI POST_BUILD
+                COMMAND ${CMAKE_COMMAND} -E copy
+                ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_SHARED_LIBRARY_PREFIX}OpenAI${CMAKE_SHARED_LIBRARY_SUFFIX}
+                ${CMAKE_CURRENT_BINARY_DIR}/tests/OpenAI/${CMAKE_SHARED_LIBRARY_PREFIX}OpenAI${CMAKE_SHARED_LIBRARY_SUFFIX})
+    endif()
 endif()

@@ -74,7 +74,7 @@ std::pair<std::string, int> OpenAI::GptTurbo::Chat(const std::string& content) n
     chatRequestBody->messages.push_back(message);
 
     const ChatCompletionsResponse::Ptr chatResponseBody = _api->ChatCompletions(chatRequestBody);
-    if (!chatRequestBody) return {};
+    if (!chatResponseBody) return {};
     std::pair<std::string, int> result = std::make_pair(chatResponseBody->content, chatResponseBody->usage->total_tokens);
 
     _context.emplace_back(Role::User, content);
