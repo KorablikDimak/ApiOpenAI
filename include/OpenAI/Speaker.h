@@ -15,11 +15,12 @@ namespace OpenAI
         Voice _voice;
         ResponseFormat _responseFormat;
         float _speed;
+        std::string _directory;
 
     public:
         typedef std::shared_ptr<Speaker> Ptr;
 
-        explicit Speaker(const OpenAIApi::Ptr& api) noexcept;
+        explicit Speaker(const OpenAIApi::Ptr& api, const std::string& directory = "") noexcept;
         ~Speaker() override = default;
 
         [[nodiscard]]
@@ -28,6 +29,7 @@ namespace OpenAI
         void ChangeVoice(Voice voice) noexcept;
         void ChangeResponseFormat(ResponseFormat format) noexcept;
         void SetSpeed(float speed) noexcept;
+        void SetDirectory(const std::string& directory) noexcept;
     };
 }
 

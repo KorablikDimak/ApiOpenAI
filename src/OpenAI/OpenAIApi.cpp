@@ -1,12 +1,9 @@
 #include <fstream>
 #include <algorithm>
 
-#include <boost/asio/streambuf.hpp>
-#include <boost/asio/read_until.hpp>
-#include <Common/Random.h>
-
 #include <OpenAI/OpenAIApi.h>
 #include <OpenAI/HttpsClient.h>
+#include <Common/Random.h>
 
 constexpr std::string OpenAI::OpenAIApi::HOST = "api.openai.com";
 constexpr unsigned int OpenAI::OpenAIApi::HTTP_VERSION = 11;
@@ -155,48 +152,40 @@ OpenAI::CreateImageResponse::Ptr OpenAI::OpenAIApi::CreateImage(const CreateImag
     return createImageResponse;
 }
 
-std::string OpenAI::OpenAIApi::Speech(const SpeechRequest::Ptr& speechRequest) const noexcept
+std::string OpenAI::OpenAIApi::Speech(const SpeechRequest::Ptr& speechRequest, const std::string& directory) const noexcept
 {
     try
     {
-        std::string filePath = "root/Speaker/" + Common::RandomString(16) + "." + speechRequest->response_format;
+        std::string filePath;
+
+        if (directory.empty())
+            filePath = Common::RandomString(16) + "." + speechRequest->response_format;
+        else if (directory.ends_with("/"))
+            filePath = directory + Common::RandomString(16) + "." + speechRequest->response_format;
+        else
+            filePath = directory + "/" + Common::RandomString(16) + "." + speechRequest->response_format;
+
+        const auto httpContext = std::make_shared<HttpContext<StringBody, StringBody>>();
+
+        httpContext->Request->version(HTTP_VERSION);
+        httpContext->Request->method_string("POST");
+        httpContext->Request->set(boost::beast::http::field::host, HOST);
+        httpContext->Request->target("/v1/audio/speech");
+        httpContext->Request->set(boost::beast::http::field::authorization, "Bearer " + _token);
+
+        httpContext->Request->set(boost::beast::http::field::content_type, "application/json");
         const Json::Json json = speechRequest;
+        httpContext->Request->body() = std::move(json.dump());
+        httpContext->Request->prepare_payload();
 
-        boost::beast::http::request<StringBody> request;
-        request.version(HTTP_VERSION);
-        request.method_string("POST");
-        request.set(boost::beast::http::field::host, HOST);
-        request.target("/v1/audio/speech");
-        request.set(boost::beast::http::field::authorization, "Bearer " + _token);
+        try
+        { HttpsClient::SendHttpsAsync(httpContext, UseSNI::ON); }
+        catch (...)
+        { return {}; }
 
-        request.set(boost::beast::http::field::content_type, "application/json");
-        request.body() = std::move(json.dump());
-        request.prepare_payload();
-
-        Service service;
-        SslContext sslContext(SslContext::tlsv13_client);
-        SslSocket sslSocket(service, sslContext);
-
-        SSL_set_tlsext_host_name(sslSocket.native_handle(), HOST.c_str());
-        sslSocket.set_verify_callback(boost::asio::ssl::host_name_verification(HOST));
-
-        Resolver resolver(service);
-        auto ip = resolver.resolve(HOST, "443");
-        boost::asio::connect(sslSocket.lowest_layer(), ip);
-        sslSocket.handshake(boost::asio::ssl::stream_base::client);
-
-        boost::beast::http::write(sslSocket, request);
-
-        boost::asio::streambuf responseBuf;
-        read_until(sslSocket, responseBuf, "\r\n\r\n");
-
-        boost::asio::streambuf audioData;
-        read_until(sslSocket, audioData, "\r\n\r\n");
-
-        std::vector<char> target(audioData.size());
-        buffer_copy(boost::asio::buffer(target), audioData.data());
+        const std::string responseResult = httpContext->Response->get().body();
         std::ofstream audiofile(filePath, std::ios::binary);
-        audiofile.write(target.data(), static_cast<long long>(target.size()));
+        audiofile.write(responseResult.data(), static_cast<long long>(responseResult.size()));
 
         return filePath;
     }

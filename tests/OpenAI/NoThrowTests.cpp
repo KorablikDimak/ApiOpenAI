@@ -1,6 +1,5 @@
 #include <gtest/gtest.h>
 
-#include <OpenAI/OpenAI.h>
 #include <OpenAI/GptTurbo.h>
 #include <OpenAI/Whisper.h>
 #include <OpenAI/Speaker.h>

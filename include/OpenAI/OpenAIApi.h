@@ -41,7 +41,7 @@ namespace OpenAI
         [[nodiscard]]
         CreateImageResponse::Ptr CreateImage(const CreateImageRequest::Ptr& createImageRequest) const noexcept;
         [[nodiscard]]
-        std::string Speech(const SpeechRequest::Ptr& speechRequest) const noexcept;
+        std::string Speech(const SpeechRequest::Ptr& speechRequest, const std::string& directory = "") const noexcept;
     };
 }
 
