@@ -17,7 +17,7 @@ namespace OpenAI
         Assistant = 2
     };
 
-    inline std::string ToString(const Role role)
+    inline std::string ToString(const Role role) noexcept
     {
         switch (role)
         {
@@ -54,16 +54,16 @@ namespace OpenAI
     public:
         typedef std::shared_ptr<GptTurbo> Ptr;
 
-        explicit GptTurbo(const OpenAIApi::Ptr& api, const std::string& user = "", const std::string& name = "");
+        explicit GptTurbo(const OpenAIApi::Ptr& api, const std::string& user = "", const std::string& name = "") noexcept;
         ~GptTurbo() override = default;
 
-        std::pair<std::string, int> Chat(const std::string& content);
+        std::pair<std::string, int> Chat(const std::string& content) noexcept;
 
-        void AddSystemMessage(const std::string& content);
+        void AddSystemMessage(const std::string& content) noexcept;
 
-        void SetContextSize(unsigned char contextSize);
-        void SetTemperature(float temperature);
-        void AllowModelMessagesInContext(bool allow);
+        void SetContextSize(unsigned char contextSize) noexcept;
+        void SetTemperature(float temperature) noexcept;
+        void AllowModelMessagesInContext(bool allow) noexcept;
     };
 }
 

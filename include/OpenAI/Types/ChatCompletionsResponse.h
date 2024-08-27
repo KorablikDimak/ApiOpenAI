@@ -21,7 +21,7 @@ namespace OpenAI
         Usage::Ptr usage;
     };
 
-    inline void from_json(const Json::Json& json, ChatCompletionsResponse& object)
+    inline void from_json(const Json::Json& json, ChatCompletionsResponse& object) noexcept
     {
         VALUE_FROM_JSON(id)
         VALUE_FROM_JSON(object)

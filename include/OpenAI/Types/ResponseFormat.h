@@ -13,7 +13,7 @@ namespace OpenAI
         flac = 3
     };
 
-    inline void FromString(ResponseFormat& format, const std::string& formatString)
+    inline void FromString(ResponseFormat& format, const std::string& formatString) noexcept
     {
         if (formatString == "mp3")
             format = ResponseFormat::mp3;
@@ -25,7 +25,7 @@ namespace OpenAI
             format = ResponseFormat::flac;
     }
 
-    inline std::string ToString(const ResponseFormat voice)
+    inline std::string ToString(const ResponseFormat voice) noexcept
     {
         switch (voice)
         {

@@ -15,12 +15,13 @@ namespace OpenAI
     public:
         typedef std::shared_ptr<Whisper> Ptr;
 
-        explicit Whisper(const OpenAIApi::Ptr& api);
+        explicit Whisper(const OpenAIApi::Ptr& api) noexcept;
         ~Whisper() override = default;
 
-        std::string Transcript(const std::string& filePath) const;
+        [[nodiscard]]
+        std::string Transcript(const std::string& filePath) const noexcept;
 
-        void SetTemperature(float temperature);
+        void SetTemperature(float temperature) noexcept;
     };
 }
 

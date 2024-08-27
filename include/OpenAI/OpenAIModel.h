@@ -14,9 +14,9 @@ namespace OpenAI
     public:
         typedef std::shared_ptr<OpenAIModel> Ptr;
 
-        OpenAIModel() = default;
+        OpenAIModel() noexcept = default;
         virtual ~OpenAIModel() = default;
-        std::string GetModelName();
+        std::string GetModelName() noexcept;
     };
 }
 

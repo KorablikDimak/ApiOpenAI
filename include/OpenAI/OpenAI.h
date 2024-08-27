@@ -12,17 +12,17 @@ namespace OpenAI
         OpenAIApi::Ptr _api;
 
     public:
-        explicit OpenAI(const std::string& token);
+        explicit OpenAI(const std::string& token) noexcept;
         ~OpenAI() = default;
 
         [[nodiscard]]
-        OpenAIModel::Ptr GptTurboSession(const std::string& user = "", const std::string& name = "") const;
+        OpenAIModel::Ptr GptTurboSession(const std::string& user = "", const std::string& name = "") const noexcept;
         [[nodiscard]]
-        OpenAIModel::Ptr WhisperSession() const;
+        OpenAIModel::Ptr WhisperSession() const noexcept;
         [[nodiscard]]
-        OpenAIModel::Ptr DalleSession(const std::string& user = "") const;
+        OpenAIModel::Ptr DalleSession(const std::string& user = "") const noexcept;
         [[nodiscard]]
-        OpenAIModel::Ptr SpeakerSession() const;
+        OpenAIModel::Ptr SpeakerSession() const noexcept;
     };
 }
 

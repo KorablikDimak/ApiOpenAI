@@ -17,7 +17,7 @@ namespace OpenAI
         std::string user;
     };
 
-    inline void to_json(Json::Json& json, const CreateImageRequest::Ptr& object)
+    inline void to_json(Json::Json& json, const CreateImageRequest::Ptr& object) noexcept
     {
         VALUE_TO_JSON(prompt)
         VALUE_TO_JSON(n)

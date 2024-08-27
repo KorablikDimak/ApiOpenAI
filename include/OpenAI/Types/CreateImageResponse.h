@@ -14,7 +14,7 @@ namespace OpenAI
         std::vector<std::string> data;
     };
 
-    inline void from_json(const Json::Json& json, CreateImageResponse& object)
+    inline void from_json(const Json::Json& json, CreateImageResponse& object) noexcept
     {
         VALUE_FROM_JSON(created)
 

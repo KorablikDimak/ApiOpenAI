@@ -17,7 +17,7 @@ namespace OpenAI
         float speed;
     };
 
-    inline void to_json(Json::Json& json, const SpeechRequest::Ptr& object)
+    inline void to_json(Json::Json& json, const SpeechRequest::Ptr& object) noexcept
     {
         VALUE_TO_JSON(model)
         VALUE_TO_JSON(input)

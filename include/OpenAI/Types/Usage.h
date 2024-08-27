@@ -15,7 +15,7 @@ namespace OpenAI
         std::int32_t total_tokens;
     };
 
-    inline void from_json(const Json::Json& json, Usage& object)
+    inline void from_json(const Json::Json& json, Usage& object) noexcept
     {
         VALUE_FROM_JSON(prompt_tokens)
         VALUE_FROM_JSON(completion_tokens)

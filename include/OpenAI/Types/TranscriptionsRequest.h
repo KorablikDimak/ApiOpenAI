@@ -18,7 +18,7 @@ namespace OpenAI
         std::string language;
     };
 
-    inline void to_json(Json::Json& json, const TranscriptionsRequest::Ptr& object)
+    inline void to_json(Json::Json& json, const TranscriptionsRequest::Ptr& object) noexcept
     {
         VALUE_TO_JSON(file)
         VALUE_TO_JSON(model)

@@ -2,7 +2,7 @@
 
 const std::string OpenAI::Speaker::MODEL_NAME = "tts-1";
 
-OpenAI::Speaker::Speaker(const OpenAIApi::Ptr &api)
+OpenAI::Speaker::Speaker(const OpenAIApi::Ptr &api) noexcept
 {
     _api = api;
     _modelName = MODEL_NAME;
@@ -11,7 +11,7 @@ OpenAI::Speaker::Speaker(const OpenAIApi::Ptr &api)
     _speed = 1;
 }
 
-std::string OpenAI::Speaker::Speech(const std::string &text) const
+std::string OpenAI::Speaker::Speech(const std::string &text) const noexcept
 {
     const auto speechRequest = std::make_shared<SpeechRequest>();
     speechRequest->model = _modelName;
@@ -22,17 +22,17 @@ std::string OpenAI::Speaker::Speech(const std::string &text) const
     return _api->Speech(speechRequest);
 }
 
-void OpenAI::Speaker::ChangeVoice(const Voice voice)
+void OpenAI::Speaker::ChangeVoice(const Voice voice) noexcept
 {
     _voice = voice;
 }
 
-void OpenAI::Speaker::ChangeResponseFormat(const ResponseFormat format)
+void OpenAI::Speaker::ChangeResponseFormat(const ResponseFormat format) noexcept
 {
     _responseFormat = format;
 }
 
-void OpenAI::Speaker::SetSpeed(const float speed)
+void OpenAI::Speaker::SetSpeed(const float speed) noexcept
 {
     if (speed >= 0.25 && speed <= 4)
         _speed = speed;

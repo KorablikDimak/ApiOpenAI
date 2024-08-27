@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.5)
 
 project(OpenAI
-        VERSION 1.0.0
+        VERSION 1.1.0
         DESCRIPTION "Library for connect to open ai api"
         LANGUAGES CXX)
 
@@ -80,6 +80,7 @@ endif()
 
 if(MSVC)
     target_compile_options(OpenAI PRIVATE /bigobj)
+    target_compile_definitions(OpenAI PRIVATE _WIN32_WINNT=0x0601)
 elseif(CMAKE_BUILD_TYPE MATCHES "Debug")
     target_compile_options(OpenAI PRIVATE -O1 -Wa,-mbig-obj)
 endif()

@@ -19,14 +19,15 @@ namespace OpenAI
     public:
         typedef std::shared_ptr<Speaker> Ptr;
 
-        explicit Speaker(const OpenAIApi::Ptr& api);
+        explicit Speaker(const OpenAIApi::Ptr& api) noexcept;
         ~Speaker() override = default;
 
-        std::string Speech(const std::string& text) const;
+        [[nodiscard]]
+        std::string Speech(const std::string& text) const noexcept;
 
-        void ChangeVoice(Voice voice);
-        void ChangeResponseFormat(ResponseFormat format);
-        void SetSpeed(float speed);
+        void ChangeVoice(Voice voice) noexcept;
+        void ChangeResponseFormat(ResponseFormat format) noexcept;
+        void SetSpeed(float speed) noexcept;
     };
 }
 

@@ -7,21 +7,21 @@ const std::int16_t OpenAI::GptTurbo::MAX_TOKENS = 0;
 const float OpenAI::GptTurbo::PRESENCE_PENALTY = 0;
 const float OpenAI::GptTurbo::FREQUENCY_PENALTY = 0;
 
-OpenAI::GptTurbo::GptTurbo(const OpenAIApi::Ptr& api, const std::string& user, const std::string& name)
+OpenAI::GptTurbo::GptTurbo(const OpenAIApi::Ptr& api, const std::string& user, const std::string& name) noexcept
 {
     _api = api;
     _modelName = MODEL_NAME;
 
     _user = user;
-    if (name.size() > 64) throw std::invalid_argument("name is too long");
-    _name = name;
+    if (name.size() > 64) _name = name.substr(0, 64);
+    else _name = name;
 
     _contextSize = 2;
     _temperature = 1;
     _allowModelMessagesInContext = false;
 }
 
-std::pair<std::string, int> OpenAI::GptTurbo::Chat(const std::string& content)
+std::pair<std::string, int> OpenAI::GptTurbo::Chat(const std::string& content) noexcept
 {
     const auto chatRequestBody = std::make_shared<ChatCompletionsRequest>();
     chatRequestBody->model = _modelName;
@@ -74,6 +74,7 @@ std::pair<std::string, int> OpenAI::GptTurbo::Chat(const std::string& content)
     chatRequestBody->messages.push_back(message);
 
     const ChatCompletionsResponse::Ptr chatResponseBody = _api->ChatCompletions(chatRequestBody);
+    if (!chatRequestBody) return {};
     std::pair<std::string, int> result = std::make_pair(chatResponseBody->content, chatResponseBody->usage->total_tokens);
 
     _context.emplace_back(Role::User, content);
@@ -84,24 +85,24 @@ std::pair<std::string, int> OpenAI::GptTurbo::Chat(const std::string& content)
     return result;
 }
 
-void OpenAI::GptTurbo::AddSystemMessage(const std::string& content)
+void OpenAI::GptTurbo::AddSystemMessage(const std::string& content) noexcept
 {
     // TODO AddSystemMessage
 }
 
-void OpenAI::GptTurbo::SetContextSize(const unsigned char contextSize)
+void OpenAI::GptTurbo::SetContextSize(const unsigned char contextSize) noexcept
 {
     if (contextSize > 7) return;
     _contextSize = contextSize;
 }
 
-void OpenAI::GptTurbo::SetTemperature(const float temperature)
+void OpenAI::GptTurbo::SetTemperature(const float temperature) noexcept
 {
     if (temperature < 0 || temperature > 2) return;
     _temperature = temperature;
 }
 
-void OpenAI::GptTurbo::AllowModelMessagesInContext(const bool allow)
+void OpenAI::GptTurbo::AllowModelMessagesInContext(const bool allow) noexcept
 {
     _allowModelMessagesInContext = allow;
 }

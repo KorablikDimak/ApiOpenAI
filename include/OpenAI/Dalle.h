@@ -21,13 +21,13 @@ namespace OpenAI
     public:
         typedef std::shared_ptr<Dalle> Ptr;
 
-        explicit Dalle(const OpenAIApi::Ptr& api, const std::string& user = "");
+        explicit Dalle(const OpenAIApi::Ptr& api, const std::string& user = "") noexcept;
         ~Dalle() override = default;
 
         [[nodiscard]]
-        std::string CreateImage(const std::string& prompt) const;
+        std::string CreateImage(const std::string& prompt) const noexcept;
 
-        void SetSize(Size size);
+        void SetSize(Size size) noexcept;
     };
 }
 

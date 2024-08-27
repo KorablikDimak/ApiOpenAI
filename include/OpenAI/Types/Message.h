@@ -15,7 +15,7 @@ namespace OpenAI
         std::string name;
     };
 
-    inline void to_json(Json::Json& json, const Message::Ptr& object)
+    inline void to_json(Json::Json& json, const Message::Ptr& object) noexcept
     {
         VALUE_TO_JSON(role)
         VALUE_TO_JSON(content)

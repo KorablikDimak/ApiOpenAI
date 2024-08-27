@@ -19,7 +19,7 @@ namespace OpenAI
         bool deleted;
     };
 
-    inline void from_json(const Json::Json& json, FileInfo& object)
+    inline void from_json(const Json::Json& json, FileInfo& object) noexcept
     {
         VALUE_FROM_JSON(id)
         VALUE_FROM_JSON(object)

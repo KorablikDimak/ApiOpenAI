@@ -4,7 +4,7 @@ const std::string OpenAI::Dalle::MODEL_NAME = "DALLE";
 const std::string OpenAI::Dalle::RESPONSE_FORMAT = "url";
 const unsigned char OpenAI::Dalle::N = 1;
 
-OpenAI::Dalle::Dalle(const OpenAIApi::Ptr& api, const std::string& user)
+OpenAI::Dalle::Dalle(const OpenAIApi::Ptr& api, const std::string& user) noexcept
 {
     _api = api;
     _modelName = MODEL_NAME;
@@ -13,7 +13,7 @@ OpenAI::Dalle::Dalle(const OpenAIApi::Ptr& api, const std::string& user)
     _size = Size::Large;
 }
 
-std::string OpenAI::Dalle::CreateImage(const std::string& prompt) const
+std::string OpenAI::Dalle::CreateImage(const std::string& prompt) const noexcept
 {
     const auto createImageRequest = std::make_shared<CreateImageRequest>();
     createImageRequest->prompt = prompt;
@@ -34,10 +34,11 @@ std::string OpenAI::Dalle::CreateImage(const std::string& prompt) const
     createImageRequest->user = _user;
 
     const CreateImageResponse::Ptr createImageResponse = _api->CreateImage(createImageRequest);
+    if (!createImageResponse || createImageResponse->data.empty()) return {};
     return createImageResponse->data[0];
 }
 
-void OpenAI::Dalle::SetSize(const Size size)
+void OpenAI::Dalle::SetSize(const Size size) noexcept
 {
     _size = size;
 }

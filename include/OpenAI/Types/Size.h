@@ -12,7 +12,7 @@ namespace OpenAI
         Large = 2
     };
 
-    inline void FromString(Size& size, const std::string& sizeString)
+    inline void FromString(Size& size, const std::string& sizeString) noexcept
     {
         if (sizeString == "256x256")
             size = Size::Mini;
@@ -22,7 +22,7 @@ namespace OpenAI
             size = Size::Large;
     }
 
-    inline std::string ToString(const Size size)
+    inline std::string ToString(const Size size) noexcept
     {
         switch (size)
         {

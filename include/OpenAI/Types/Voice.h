@@ -15,7 +15,7 @@ namespace OpenAI
         shimmer = 5
     };
 
-    inline void FromString(Voice& voice, const std::string& voiceString)
+    inline void FromString(Voice& voice, const std::string& voiceString) noexcept
     {
         if (voiceString == "alloy")
             voice = Voice::alloy;
@@ -31,7 +31,7 @@ namespace OpenAI
             voice = Voice::shimmer;
     }
 
-    inline std::string ToString(const Voice voice)
+    inline std::string ToString(const Voice voice) noexcept
     {
         switch (voice)
         {

@@ -20,28 +20,28 @@ namespace OpenAI
         std::string _token;
 
         [[nodiscard]]
-        Json::Json Get(const std::string& methodName) const;
+        std::optional<Json::Json> Get(const std::string& methodName) const noexcept;
         [[nodiscard]]
-        Json::Json Post(const std::string& methodName, const Json::Json& params) const;
+        std::optional<Json::Json> Post(const std::string& methodName, const Json::Json& params) const noexcept;
 
     public:
         typedef std::shared_ptr<OpenAIApi> Ptr;
 
         explicit OpenAIApi(const std::string& token) noexcept;
-        ~OpenAIApi() noexcept = default;
+        ~OpenAIApi() = default;
 
         [[nodiscard]]
-        ChatCompletionsResponse::Ptr ChatCompletions(const ChatCompletionsRequest::Ptr& completionsRequest) const;
+        ChatCompletionsResponse::Ptr ChatCompletions(const ChatCompletionsRequest::Ptr& completionsRequest) const noexcept;
         [[nodiscard]]
-        FileInfo::Ptr UploadFile(const std::string& filePath) const = delete;
+        FileInfo::Ptr UploadFile(const std::string& filePath) const noexcept = delete;
         [[nodiscard]]
-        FileInfo::Ptr DeleteFile(const std::string& fileId) const;
+        FileInfo::Ptr DeleteFile(const std::string& fileId) const noexcept;
         [[nodiscard]]
-        std::string CreateTranscription(const TranscriptionsRequest::Ptr& transcriptionsRequest) const;
+        std::string CreateTranscription(const TranscriptionsRequest::Ptr& transcriptionsRequest) const noexcept;
         [[nodiscard]]
-        CreateImageResponse::Ptr CreateImage(const CreateImageRequest::Ptr& createImageRequest) const;
+        CreateImageResponse::Ptr CreateImage(const CreateImageRequest::Ptr& createImageRequest) const noexcept;
         [[nodiscard]]
-        std::string Speech(const SpeechRequest::Ptr& speechRequest) const;
+        std::string Speech(const SpeechRequest::Ptr& speechRequest) const noexcept;
     };
 }
 
