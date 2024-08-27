@@ -26,11 +26,12 @@ std::optional<Json::Json> OpenAI::OpenAIApi::Get(const std::string& methodName) 
     httpContext->Request->set(boost::beast::http::field::authorization, "Bearer " + _token);
 
     try
-    { HttpsClient::SendHttpsAsync(httpContext, UseSNI::ON); }
+    {
+        HttpsClient::SendHttpsAsync(httpContext, UseSNI::ON);
+        return Json::Json::parse(httpContext->Response->get().body());
+    }
     catch (...)
     { return std::nullopt; }
-
-    return Json::Json::parse(httpContext->Response->get().body());
 }
 
 std::optional<Json::Json> OpenAI::OpenAIApi::Post(const std::string& methodName, const Json::Json& params) const noexcept
@@ -47,11 +48,12 @@ std::optional<Json::Json> OpenAI::OpenAIApi::Post(const std::string& methodName,
     httpContext->Request->prepare_payload();
 
     try
-    { HttpsClient::SendHttpsAsync(httpContext, UseSNI::ON); }
+    {
+        HttpsClient::SendHttpsAsync(httpContext, UseSNI::ON);
+        return Json::Json::parse(httpContext->Response->get().body());
+    }
     catch (...)
     { return std::nullopt; }
-
-    return Json::Json::parse(httpContext->Response->get().body());
 }
 
 OpenAI::ChatCompletionsResponse::Ptr OpenAI::OpenAIApi::ChatCompletions(const ChatCompletionsRequest::Ptr& completionsRequest) const noexcept
