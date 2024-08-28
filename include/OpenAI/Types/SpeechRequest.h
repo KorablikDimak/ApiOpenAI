@@ -15,6 +15,7 @@ namespace OpenAI
         std::string voice;
         std::string response_format;
         float speed;
+        std::string directory;
     };
 
     inline void to_json(Json::Json& json, const SpeechRequest::Ptr& object) noexcept

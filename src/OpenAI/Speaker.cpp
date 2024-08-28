@@ -2,14 +2,14 @@
 
 const std::string OpenAI::Speaker::MODEL_NAME = "tts-1";
 
-OpenAI::Speaker::Speaker(const OpenAIApi::Ptr &api, const std::string& directory) noexcept
+OpenAI::Speaker::Speaker(const OpenAIApi::Ptr &api) noexcept
 {
     _api = api;
     _modelName = MODEL_NAME;
     _voice = Voice::alloy;
     _responseFormat = ResponseFormat::mp3;
     _speed = 1;
-    _directory = directory;
+    _directory = "";
 }
 
 std::string OpenAI::Speaker::Speech(const std::string &text) const noexcept
@@ -20,6 +20,7 @@ std::string OpenAI::Speaker::Speech(const std::string &text) const noexcept
     speechRequest->voice = ToString(_voice);
     speechRequest->response_format = ToString(_responseFormat);
     speechRequest->speed = _speed;
+    speechRequest->directory = _directory;
     return _api->Speech(speechRequest);
 }
 

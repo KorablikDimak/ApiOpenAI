@@ -55,6 +55,7 @@ std::optional<Json::Json> OpenAI::OpenAIApi::Post(const std::string& methodName,
 
 OpenAI::ChatCompletionsResponse::Ptr OpenAI::OpenAIApi::ChatCompletions(const ChatCompletionsRequest::Ptr& completionsRequest) const noexcept
 {
+    if (!completionsRequest) return { nullptr };
     const Json::Json requestBody = completionsRequest;
 
     const auto postResult = Post("chat/completions", requestBody);
@@ -95,6 +96,7 @@ std::string OpenAI::OpenAIApi::CreateTranscription(const TranscriptionsRequest::
 {
     try
     {
+        if (!transcriptionsRequest) return {};
         std::stringstream fileContent;
         std::ifstream file(transcriptionsRequest->file.c_str(), std::ios::binary);
         if (!file.is_open()) return {};
@@ -141,6 +143,7 @@ std::string OpenAI::OpenAIApi::CreateTranscription(const TranscriptionsRequest::
 
 OpenAI::CreateImageResponse::Ptr OpenAI::OpenAIApi::CreateImage(const CreateImageRequest::Ptr& createImageRequest) const noexcept
 {
+    if (!createImageRequest) return { nullptr };
     const Json::Json requestBody = createImageRequest;
 
     const auto postResult = Post("images/generations", requestBody);
@@ -152,18 +155,19 @@ OpenAI::CreateImageResponse::Ptr OpenAI::OpenAIApi::CreateImage(const CreateImag
     return createImageResponse;
 }
 
-std::string OpenAI::OpenAIApi::Speech(const SpeechRequest::Ptr& speechRequest, const std::string& directory) const noexcept
+std::string OpenAI::OpenAIApi::Speech(const SpeechRequest::Ptr& speechRequest) const noexcept
 {
     try
     {
+        if (!speechRequest) return {};
         std::string filePath;
 
-        if (directory.empty())
+        if (speechRequest->directory.empty())
             filePath = Common::RandomString(16) + "." + speechRequest->response_format;
-        else if (directory.ends_with("/"))
-            filePath = directory + Common::RandomString(16) + "." + speechRequest->response_format;
+        else if (speechRequest->directory.ends_with("/"))
+            filePath = speechRequest->directory + Common::RandomString(16) + "." + speechRequest->response_format;
         else
-            filePath = directory + "/" + Common::RandomString(16) + "." + speechRequest->response_format;
+            filePath = speechRequest->directory + "/" + Common::RandomString(16) + "." + speechRequest->response_format;
 
         const auto httpContext = std::make_shared<HttpContext<StringBody, StringBody>>();
 

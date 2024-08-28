@@ -20,7 +20,7 @@ namespace OpenAI
     public:
         typedef std::shared_ptr<Speaker> Ptr;
 
-        explicit Speaker(const OpenAIApi::Ptr& api, const std::string& directory = "") noexcept;
+        explicit Speaker(const OpenAIApi::Ptr& api) noexcept;
         ~Speaker() override = default;
 
         [[nodiscard]]
