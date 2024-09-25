@@ -1,12 +1,13 @@
 cmake_minimum_required(VERSION 3.5)
 
 project(OpenAI
-        VERSION 1.1.4
+        VERSION 1.1.5
         DESCRIPTION "Library for connect to open ai api"
         LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 
 include(GNUInstallDirs)
@@ -79,11 +80,8 @@ if(MINGW)
     target_link_libraries(OpenAI PRIVATE ws2_32)
 endif()
 
-if(MSVC)
-    target_compile_options(OpenAI PRIVATE /bigobj)
+if(MSVC AND WIN32)
     target_compile_definitions(OpenAI PRIVATE _WIN32_WINNT=0x0601)
-elseif(CMAKE_BUILD_TYPE MATCHES "Debug")
-    target_compile_options(OpenAI PRIVATE -O1 -Wa,-mbig-obj)
 endif()
 
 if(OpenAI_INSTALL AND NOT CMAKE_SKIP_INSTALL_RULES)

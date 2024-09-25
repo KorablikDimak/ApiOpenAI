@@ -14,7 +14,7 @@ namespace OpenAI
     class OpenAIApi
     {
     private:
-        static const std::string HOST;
+        static const std::string_view HOST;
         static const unsigned int HTTP_VERSION;
 
         std::string _token;

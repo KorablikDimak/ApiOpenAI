@@ -49,6 +49,7 @@ namespace OpenAI
             Resolver resolver(service);
             auto ip = resolver.resolve((*context->Request)[boost::beast::http::field::host], "443");
 
+        #ifdef BOOST_ASIO_HAS_CO_AWAIT
             boost::asio::co_spawn(service, [&sslSocket, &ip, context]()->boost::asio::awaitable<void>
             {
                 co_await boost::asio::async_connect(sslSocket.lowest_layer(), ip, boost::asio::use_awaitable);
@@ -59,6 +60,15 @@ namespace OpenAI
                 while (!context->Response->is_done())
                     co_await boost::beast::http::async_read_some(sslSocket, buffer, *context->Response, boost::asio::use_awaitable);
             }, boost::asio::detached);
+        #else
+            boost::asio::connect(sslSocket.lowest_layer(), ip);
+            sslSocket.handshake(boost::asio::ssl::stream_base::client);
+            boost::beast::http::write(sslSocket, *context->Request);
+
+            boost::beast::flat_buffer buffer;
+            while (!context->Response->is_done())
+                boost::beast::http::read_some(sslSocket, buffer, *context->Response);
+        #endif
 
             service.run();
         }

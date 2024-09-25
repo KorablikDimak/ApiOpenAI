@@ -5,7 +5,7 @@
 #include <OpenAI/HttpsClient.h>
 #include <Common/Random.h>
 
-constexpr std::string OpenAI::OpenAIApi::HOST = "api.openai.com";
+constexpr std::string_view OpenAI::OpenAIApi::HOST = "api.openai.com";
 constexpr unsigned int OpenAI::OpenAIApi::HTTP_VERSION = 11;
 
 OpenAI::OpenAIApi::OpenAIApi(const std::string& token) noexcept
@@ -41,7 +41,7 @@ std::optional<Json::Json> OpenAI::OpenAIApi::Post(const std::string& methodName,
     httpContext->Request->set(boost::beast::http::field::authorization, "Bearer " + _token);
 
     httpContext->Request->set(boost::beast::http::field::content_type, "application/json");
-    httpContext->Request->body() = std::move(params.dump());
+    httpContext->Request->body() = params.dump();
     httpContext->Request->prepare_payload();
 
     try
@@ -63,7 +63,7 @@ OpenAI::ChatCompletionsResponse::Ptr OpenAI::OpenAIApi::ChatCompletions(const Ch
     const Json::Json& responseBody = postResult.value();
 
     auto completionsResponse = std::make_shared<ChatCompletionsResponse>();
-    *completionsResponse = std::move(responseBody.get<ChatCompletionsResponse>());
+    *completionsResponse = responseBody.get<ChatCompletionsResponse>();
     return completionsResponse;
 }
 
@@ -86,7 +86,7 @@ OpenAI::FileInfo::Ptr OpenAI::OpenAIApi::DeleteFile(const std::string& fileId) c
     const Json::Json responseBody = Json::Json::parse(httpContext->Response->get().body());
 
     auto fileInfo = std::make_shared<FileInfo>();
-    *fileInfo = std::move(responseBody.get<FileInfo>());
+    *fileInfo = responseBody.get<FileInfo>();
     return fileInfo;
 }
 
@@ -151,7 +151,7 @@ OpenAI::CreateImageResponse::Ptr OpenAI::OpenAIApi::CreateImage(const CreateImag
     const Json::Json& responseBody = postResult.value();
 
     auto createImageResponse = std::make_shared<CreateImageResponse>();
-    *createImageResponse = std::move(responseBody.get<CreateImageResponse>());
+    *createImageResponse = responseBody.get<CreateImageResponse>();
     return createImageResponse;
 }
 
@@ -179,7 +179,7 @@ std::string OpenAI::OpenAIApi::Speech(const SpeechRequest::Ptr& speechRequest) c
 
         httpContext->Request->set(boost::beast::http::field::content_type, "application/json");
         const Json::Json json = speechRequest;
-        httpContext->Request->body() = std::move(json.dump());
+        httpContext->Request->body() = json.dump();
         httpContext->Request->prepare_payload();
 
         try

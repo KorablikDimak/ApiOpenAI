@@ -85,7 +85,7 @@ std::pair<std::string, int> OpenAI::GptTurbo::Chat(const std::string& content) n
     return result;
 }
 
-void OpenAI::GptTurbo::AddSystemMessage(const std::string& content) noexcept
+void OpenAI::GptTurbo::AddSystemMessage([[maybe_unused]] const std::string& content) noexcept
 {
     // TODO AddSystemMessage
 }
