@@ -162,7 +162,7 @@ OpenAI::CreateImageResponse::Ptr OpenAI::OpenAIApi::CreateImage(const CreateImag
 
     const auto postResult = Post("images/generations", requestBody);
     if (!postResult.has_value())
-        return {nullptr;
+        return nullptr;
     const Json::Json& responseBody = postResult.value();
 
     auto createImageResponse = std::make_shared<CreateImageResponse>();
