@@ -28,7 +28,9 @@ std::optional<Json::Json> OpenAI::OpenAIApi::Get(const std::string& methodName) 
         return Json::Json::parse(httpContext->Response->get().body());
     }
     catch (...)
-    { return std::nullopt; }
+    {
+        return std::nullopt;
+    }
 }
 
 std::optional<Json::Json> OpenAI::OpenAIApi::Post(const std::string& methodName, const Json::Json& params) const noexcept
@@ -50,16 +52,20 @@ std::optional<Json::Json> OpenAI::OpenAIApi::Post(const std::string& methodName,
         return Json::Json::parse(httpContext->Response->get().body());
     }
     catch (...)
-    { return std::nullopt; }
+    {
+        return std::nullopt;
+    }
 }
 
 OpenAI::ChatCompletionsResponse::Ptr OpenAI::OpenAIApi::ChatCompletions(const ChatCompletionsRequest::Ptr& completionsRequest) const noexcept
 {
-    if (!completionsRequest) return { nullptr };
+    if (!completionsRequest)
+        return nullptr;
     const Json::Json requestBody = completionsRequest;
 
     const auto postResult = Post("chat/completions", requestBody);
-    if (!postResult.has_value()) return { nullptr };
+    if (!postResult.has_value())
+        return nullptr;
     const Json::Json& responseBody = postResult.value();
 
     auto completionsResponse = std::make_shared<ChatCompletionsResponse>();
@@ -79,9 +85,13 @@ OpenAI::FileInfo::Ptr OpenAI::OpenAIApi::DeleteFile(const std::string& fileId) c
     httpContext->Request->set(boost::beast::http::field::authorization, "Bearer " + _token);
 
     try
-    { HttpsClient::SendHttpsAsync(httpContext, UseSNI::ON); }
+    {
+        HttpsClient::SendHttpsAsync(httpContext, UseSNI::ON);
+    }
     catch (...)
-    { return { nullptr }; }
+    {
+        return nullptr;
+    }
 
     const Json::Json responseBody = Json::Json::parse(httpContext->Response->get().body());
 
@@ -96,10 +106,12 @@ std::string OpenAI::OpenAIApi::CreateTranscription(const TranscriptionsRequest::
 {
     try
     {
-        if (!transcriptionsRequest) return {};
+        if (!transcriptionsRequest)
+            return {};
         std::stringstream fileContent;
         std::ifstream file(transcriptionsRequest->file.c_str(), std::ios::binary);
-        if (!file.is_open()) return {};
+        if (!file.is_open())
+            return {};
         fileContent << file.rdbuf();
 
         const std::string guid = Common::RandomString(12);
@@ -132,7 +144,8 @@ std::string OpenAI::OpenAIApi::CreateTranscription(const TranscriptionsRequest::
         HttpsClient::SendHttpsAsync(httpContext, UseSNI::ON);
 
         const Json::Json responseBody = Json::Json::parse(httpContext->Response->get().body());
-        if (!responseBody.contains("text")) return {};
+        if (!responseBody.contains("text"))
+            return {};
         return responseBody.at("text").get<std::string>();
     }
     catch (...)
@@ -143,11 +156,13 @@ std::string OpenAI::OpenAIApi::CreateTranscription(const TranscriptionsRequest::
 
 OpenAI::CreateImageResponse::Ptr OpenAI::OpenAIApi::CreateImage(const CreateImageRequest::Ptr& createImageRequest) const noexcept
 {
-    if (!createImageRequest) return { nullptr };
+    if (!createImageRequest)
+        return nullptr;
     const Json::Json requestBody = createImageRequest;
 
     const auto postResult = Post("images/generations", requestBody);
-    if (!postResult.has_value()) return { nullptr };
+    if (!postResult.has_value())
+        return {nullptr;
     const Json::Json& responseBody = postResult.value();
 
     auto createImageResponse = std::make_shared<CreateImageResponse>();
@@ -159,7 +174,8 @@ std::string OpenAI::OpenAIApi::Speech(const SpeechRequest::Ptr& speechRequest) c
 {
     try
     {
-        if (!speechRequest) return {};
+        if (!speechRequest)
+            return {};
         std::string filePath;
 
         if (speechRequest->directory.empty())
@@ -183,9 +199,13 @@ std::string OpenAI::OpenAIApi::Speech(const SpeechRequest::Ptr& speechRequest) c
         httpContext->Request->prepare_payload();
 
         try
-        { HttpsClient::SendHttpsAsync(httpContext, UseSNI::ON); }
+        {
+            HttpsClient::SendHttpsAsync(httpContext, UseSNI::ON);
+        }
         catch (...)
-        { return {}; }
+        {
+            return {};
+        }
 
         const std::string responseResult = httpContext->Response->get().body();
         std::ofstream audiofile(filePath, std::ios::binary);

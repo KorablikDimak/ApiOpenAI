@@ -34,7 +34,8 @@ std::string OpenAI::Dalle::CreateImage(const std::string& prompt) const noexcept
     createImageRequest->user = _user;
 
     const CreateImageResponse::Ptr createImageResponse = _api->CreateImage(createImageRequest);
-    if (!createImageResponse || createImageResponse->data.empty()) return {};
+    if (!createImageResponse || createImageResponse->data.empty())
+        return {};
     return createImageResponse->data[0];
 }
 

@@ -13,8 +13,10 @@ OpenAI::GptTurbo::GptTurbo(const OpenAIApi::Ptr& api, const std::string& user, c
     _modelName = MODEL_NAME;
 
     _user = user;
-    if (name.size() > 64) _name = name.substr(0, 64);
-    else _name = name;
+    if (name.size() > 64)
+        _name = name.substr(0, 64);
+    else
+        _name = name;
 
     _contextSize = 2;
     _temperature = 1;
@@ -74,7 +76,8 @@ std::pair<std::string, int> OpenAI::GptTurbo::Chat(const std::string& content) n
     chatRequestBody->messages.push_back(message);
 
     const ChatCompletionsResponse::Ptr chatResponseBody = _api->ChatCompletions(chatRequestBody);
-    if (!chatResponseBody || !chatResponseBody->usage) return {};
+    if (!chatResponseBody || !chatResponseBody->usage)
+        return {};
     std::pair<std::string, int> result = std::make_pair(chatResponseBody->content, chatResponseBody->usage->total_tokens);
 
     _context.emplace_back(Role::User, content);
@@ -92,13 +95,15 @@ void OpenAI::GptTurbo::AddSystemMessage([[maybe_unused]] const std::string& cont
 
 void OpenAI::GptTurbo::SetContextSize(const unsigned char contextSize) noexcept
 {
-    if (contextSize > 7) return;
+    if (contextSize > 7)
+        return;
     _contextSize = contextSize;
 }
 
 void OpenAI::GptTurbo::SetTemperature(const float temperature) noexcept
 {
-    if (temperature < 0 || temperature > 2) return;
+    if (temperature < 0 || temperature > 2)
+        return;
     _temperature = temperature;
 }
 
