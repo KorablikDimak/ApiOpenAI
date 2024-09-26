@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.5)
 
 project(OpenAI
-        VERSION 1.1.6
+        VERSION 1.1.7
         DESCRIPTION "Library for connect to open ai api"
         LANGUAGES CXX)
 
@@ -77,11 +77,15 @@ target_link_libraries(OpenAI PRIVATE
         ${Boost_LIBRARIES})
 
 if(MINGW)
-    target_link_libraries(OpenAI PRIVATE ws2_32)
-endif()
-
-if(MSVC AND WIN32)
-    target_compile_definitions(OpenAI PRIVATE _WIN32_WINNT=0x0601)
+    target_link_libraries(Telebot PRIVATE ws2_32)
+    if(CMAKE_BUILD_TYPE MATCHES "Debug")
+        target_compile_options(Telebot PRIVATE -O1 -Wa,-mbig-obj)
+    endif()
+elseif(MSVC)
+    target_compile_options(Telebot PRIVATE /bigobj)
+    if(WIN32)
+        target_compile_definitions(Telebot PRIVATE _WIN32_WINNT=0x0601)
+    endif()
 endif()
 
 if(OpenAI_INSTALL AND NOT CMAKE_SKIP_INSTALL_RULES)
