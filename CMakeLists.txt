@@ -77,14 +77,14 @@ target_link_libraries(OpenAI PRIVATE
         ${Boost_LIBRARIES})
 
 if(MINGW)
-    target_link_libraries(Telebot PRIVATE ws2_32)
+    target_link_libraries(OpenAI PRIVATE ws2_32)
     if(CMAKE_BUILD_TYPE MATCHES "Debug")
-        target_compile_options(Telebot PRIVATE -O1 -Wa,-mbig-obj)
+        target_compile_options(OpenAI PRIVATE -O1 -Wa,-mbig-obj)
     endif()
 elseif(MSVC)
-    target_compile_options(Telebot PRIVATE /bigobj)
+    target_compile_options(OpenAI PRIVATE /bigobj)
     if(WIN32)
-        target_compile_definitions(Telebot PRIVATE _WIN32_WINNT=0x0601)
+        target_compile_definitions(OpenAI PRIVATE _WIN32_WINNT=0x0601)
     endif()
 endif()
 
