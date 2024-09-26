@@ -1,7 +1,7 @@
 #ifndef OpenAI_CreateImageResponse_H
 #define OpenAI_CreateImageResponse_H
 
-#include <Json/Json.h>
+#include <ExtendedCpp/Json.h>
 
 namespace OpenAI
 {
@@ -14,12 +14,12 @@ namespace OpenAI
         std::vector<std::string> data;
     };
 
-    inline void from_json(const Json::Json& json, CreateImageResponse& object) noexcept
+    inline void from_json(const ExtendedCpp::Json& json, CreateImageResponse& object) noexcept
     {
         VALUE_FROM_JSON(created)
 
         if (json.contains("data"))
-            for (const Json::Json& url : json.at("data"))
+            for (const ExtendedCpp::Json& url : json.at("data"))
                 if (url.contains("url"))
                     object.data.push_back(url.at("url").get<std::string>());
     }

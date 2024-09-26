@@ -1,7 +1,7 @@
 #ifndef OpenAI_Usage_H
 #define OpenAI_Usage_H
 
-#include <Json/Json.h>
+#include <ExtendedCpp/Json.h>
 
 namespace OpenAI
 {
@@ -15,7 +15,7 @@ namespace OpenAI
         std::int32_t total_tokens;
     };
 
-    inline void from_json(const Json::Json& json, Usage& object) noexcept
+    inline void from_json(const ExtendedCpp::Json& json, Usage& object) noexcept
     {
         VALUE_FROM_JSON(prompt_tokens)
         VALUE_FROM_JSON(completion_tokens)

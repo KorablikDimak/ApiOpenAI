@@ -28,7 +28,7 @@ namespace OpenAI
         std::string user;
     };
 
-    inline void to_json(Json::Json& json, const ChatCompletionsRequest::Ptr& object) noexcept
+    inline void to_json(ExtendedCpp::Json& json, const ChatCompletionsRequest::Ptr& object) noexcept
     {
         VALUE_TO_JSON(model)
         OBJECTS_TO_JSON(messages)

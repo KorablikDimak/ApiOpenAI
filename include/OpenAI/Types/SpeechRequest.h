@@ -1,7 +1,7 @@
 #ifndef OpenAI_SpeechRequest_H
 #define OpenAI_SpeechRequest_H
 
-#include <Json/Json.h>
+#include <ExtendedCpp/Json.h>
 
 namespace OpenAI
 {
@@ -18,7 +18,7 @@ namespace OpenAI
         std::string directory;
     };
 
-    inline void to_json(Json::Json& json, const SpeechRequest::Ptr& object) noexcept
+    inline void to_json(ExtendedCpp::Json& json, const SpeechRequest::Ptr& object) noexcept
     {
         VALUE_TO_JSON(model)
         VALUE_TO_JSON(input)

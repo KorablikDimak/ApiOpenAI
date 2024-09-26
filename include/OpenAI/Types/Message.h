@@ -1,7 +1,7 @@
 #ifndef OpenAI_Message_H
 #define OpenAI_Message_H
 
-#include <Json/Json.h>
+#include <ExtendedCpp/Json.h>
 
 namespace OpenAI
 {
@@ -15,7 +15,7 @@ namespace OpenAI
         std::string name;
     };
 
-    inline void to_json(Json::Json& json, const Message::Ptr& object) noexcept
+    inline void to_json(ExtendedCpp::Json& json, const Message::Ptr& object) noexcept
     {
         VALUE_TO_JSON(role)
         VALUE_TO_JSON(content)

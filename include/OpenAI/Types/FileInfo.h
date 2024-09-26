@@ -1,7 +1,7 @@
 #ifndef OpenAI_FileInfo_H
 #define OpenAI_FileInfo_H
 
-#include <Json/Json.h>
+#include <ExtendedCpp/Json.h>
 
 namespace OpenAI
 {
@@ -19,7 +19,7 @@ namespace OpenAI
         bool deleted;
     };
 
-    inline void from_json(const Json::Json& json, FileInfo& object) noexcept
+    inline void from_json(const ExtendedCpp::Json& json, FileInfo& object) noexcept
     {
         VALUE_FROM_JSON(id)
         VALUE_FROM_JSON(object)

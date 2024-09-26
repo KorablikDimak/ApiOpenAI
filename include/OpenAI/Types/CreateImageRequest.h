@@ -1,7 +1,7 @@
 #ifndef OpenAI_CreateImageRequest_H
 #define OpenAI_CreateImageRequest_H
 
-#include <Json/Json.h>
+#include <ExtendedCpp/Json.h>
 
 namespace OpenAI
 {
@@ -17,7 +17,7 @@ namespace OpenAI
         std::string user;
     };
 
-    inline void to_json(Json::Json& json, const CreateImageRequest::Ptr& object) noexcept
+    inline void to_json(ExtendedCpp::Json& json, const CreateImageRequest::Ptr& object) noexcept
     {
         VALUE_TO_JSON(prompt)
         VALUE_TO_JSON(n)

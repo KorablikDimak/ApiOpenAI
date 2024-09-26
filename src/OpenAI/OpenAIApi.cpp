@@ -3,7 +3,7 @@
 
 #include <OpenAI/OpenAIApi.h>
 #include <OpenAI/HttpsClient.h>
-#include <Common/Random.h>
+#include <ExtendedCpp/Random.h>
 
 constexpr std::string_view OpenAI::OpenAIApi::HOST = "api.openai.com";
 constexpr unsigned int OpenAI::OpenAIApi::HTTP_VERSION = 11;
@@ -13,7 +13,7 @@ OpenAI::OpenAIApi::OpenAIApi(const std::string& token) noexcept
     _token = token;
 }
 
-std::optional<Json::Json> OpenAI::OpenAIApi::Get(const std::string& methodName) const noexcept
+std::optional<ExtendedCpp::Json> OpenAI::OpenAIApi::Get(const std::string& methodName) const noexcept
 {
     const auto httpContext = std::make_shared<HttpContext<EmptyBody, StringBody>>();
     httpContext->Request->version(HTTP_VERSION);
@@ -25,7 +25,7 @@ std::optional<Json::Json> OpenAI::OpenAIApi::Get(const std::string& methodName) 
     try
     {
         HttpsClient::SendHttpsAsync(httpContext, UseSNI::ON);
-        return Json::Json::parse(httpContext->Response->get().body());
+        return ExtendedCpp::Json::parse(httpContext->Response->get().body());
     }
     catch (...)
     {
@@ -33,7 +33,7 @@ std::optional<Json::Json> OpenAI::OpenAIApi::Get(const std::string& methodName) 
     }
 }
 
-std::optional<Json::Json> OpenAI::OpenAIApi::Post(const std::string& methodName, const Json::Json& params) const noexcept
+std::optional<ExtendedCpp::Json> OpenAI::OpenAIApi::Post(const std::string& methodName, const ExtendedCpp::Json& params) const noexcept
 {
     const auto httpContext = std::make_shared<HttpContext<StringBody, StringBody>>();
     httpContext->Request->version(HTTP_VERSION);
@@ -49,7 +49,7 @@ std::optional<Json::Json> OpenAI::OpenAIApi::Post(const std::string& methodName,
     try
     {
         HttpsClient::SendHttpsAsync(httpContext, UseSNI::ON);
-        return Json::Json::parse(httpContext->Response->get().body());
+        return ExtendedCpp::Json::parse(httpContext->Response->get().body());
     }
     catch (...)
     {
@@ -61,12 +61,12 @@ OpenAI::ChatCompletionsResponse::Ptr OpenAI::OpenAIApi::ChatCompletions(const Ch
 {
     if (!completionsRequest)
         return nullptr;
-    const Json::Json requestBody = completionsRequest;
+    const ExtendedCpp::Json requestBody = completionsRequest;
 
     const auto postResult = Post("chat/completions", requestBody);
     if (!postResult.has_value())
         return nullptr;
-    const Json::Json& responseBody = postResult.value();
+    const ExtendedCpp::Json& responseBody = postResult.value();
 
     auto completionsResponse = std::make_shared<ChatCompletionsResponse>();
     *completionsResponse = responseBody.get<ChatCompletionsResponse>();
@@ -93,7 +93,7 @@ OpenAI::FileInfo::Ptr OpenAI::OpenAIApi::DeleteFile(const std::string& fileId) c
         return nullptr;
     }
 
-    const Json::Json responseBody = Json::Json::parse(httpContext->Response->get().body());
+    const ExtendedCpp::Json responseBody = ExtendedCpp::Json::parse(httpContext->Response->get().body());
 
     auto fileInfo = std::make_shared<FileInfo>();
     *fileInfo = responseBody.get<FileInfo>();
@@ -114,7 +114,7 @@ std::string OpenAI::OpenAIApi::CreateTranscription(const TranscriptionsRequest::
             return {};
         fileContent << file.rdbuf();
 
-        const std::string guid = Common::RandomString(12);
+        const std::string guid = ExtendedCpp::Random::RandomString(12);
         std::string body = "--" + guid + "\r\n"
                            "Content-Disposition: form-data; name=\"file\"; filename=\""
                            + guid + ".mp3\"\r\n"
@@ -143,7 +143,7 @@ std::string OpenAI::OpenAIApi::CreateTranscription(const TranscriptionsRequest::
 
         HttpsClient::SendHttpsAsync(httpContext, UseSNI::ON);
 
-        const Json::Json responseBody = Json::Json::parse(httpContext->Response->get().body());
+        const ExtendedCpp::Json responseBody = ExtendedCpp::Json::parse(httpContext->Response->get().body());
         if (!responseBody.contains("text"))
             return {};
         return responseBody.at("text").get<std::string>();
@@ -158,12 +158,12 @@ OpenAI::CreateImageResponse::Ptr OpenAI::OpenAIApi::CreateImage(const CreateImag
 {
     if (!createImageRequest)
         return nullptr;
-    const Json::Json requestBody = createImageRequest;
+    const ExtendedCpp::Json requestBody = createImageRequest;
 
     const auto postResult = Post("images/generations", requestBody);
     if (!postResult.has_value())
         return nullptr;
-    const Json::Json& responseBody = postResult.value();
+    const ExtendedCpp::Json& responseBody = postResult.value();
 
     auto createImageResponse = std::make_shared<CreateImageResponse>();
     *createImageResponse = responseBody.get<CreateImageResponse>();
@@ -179,11 +179,11 @@ std::string OpenAI::OpenAIApi::Speech(const SpeechRequest::Ptr& speechRequest) c
         std::string filePath;
 
         if (speechRequest->directory.empty())
-            filePath = Common::RandomString(16) + "." + speechRequest->response_format;
+            filePath = ExtendedCpp::Random::RandomString(16) + "." + speechRequest->response_format;
         else if (speechRequest->directory.ends_with("/"))
-            filePath = speechRequest->directory + Common::RandomString(16) + "." + speechRequest->response_format;
+            filePath = speechRequest->directory + ExtendedCpp::Random::RandomString(16) + "." + speechRequest->response_format;
         else
-            filePath = speechRequest->directory + "/" + Common::RandomString(16) + "." + speechRequest->response_format;
+            filePath = speechRequest->directory + "/" + ExtendedCpp::Random::RandomString(16) + "." + speechRequest->response_format;
 
         const auto httpContext = std::make_shared<HttpContext<StringBody, StringBody>>();
 
@@ -194,7 +194,7 @@ std::string OpenAI::OpenAIApi::Speech(const SpeechRequest::Ptr& speechRequest) c
         httpContext->Request->set(boost::beast::http::field::authorization, "Bearer " + _token);
 
         httpContext->Request->set(boost::beast::http::field::content_type, "application/json");
-        const Json::Json json = speechRequest;
+        const ExtendedCpp::Json json = speechRequest;
         httpContext->Request->body() = json.dump();
         httpContext->Request->prepare_payload();
 

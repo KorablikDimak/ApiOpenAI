@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.5)
 
 project(OpenAI
-        VERSION 1.1.5
+        VERSION 1.1.6
         DESCRIPTION "Library for connect to open ai api"
         LANGUAGES CXX)
 
