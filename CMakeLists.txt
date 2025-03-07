@@ -27,6 +27,12 @@ set_if_undefined(OpenAI_INSTALL_CMAKEDIR
         "${CMAKE_INSTALL_LIBDIR}/openai" CACHE STRING
         "Install path for ApiOpenAI package-related CMake files")
 
+if(BUILD_SHARED_LIBS)
+    set(LIBRARY_TYPE SHARED)
+else()
+    set(LIBRARY_TYPE STATIC)
+endif()
+
 set(OpenAI_INCLUDES
         include/OpenAI/HttpContext.h
         include/OpenAI/HttpsClient.h
@@ -60,7 +66,7 @@ set(OpenAI_SOURCE
         src/OpenAI/Dalle.cpp
         src/OpenAI/Speaker.cpp)
 
-add_library(OpenAI ${OpenAI_INCLUDES} ${OpenAI_SOURCE})
+add_library(OpenAI ${LIBRARY_TYPE} ${OpenAI_INCLUDES} ${OpenAI_SOURCE})
 add_library(OpenAI::OpenAI ALIAS OpenAI)
 
 find_package(OpenSSL REQUIRED)
