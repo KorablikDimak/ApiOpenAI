@@ -4,7 +4,7 @@
 #include <boost/asio/ssl/context.hpp>
 #include <boost/asio/ssl/stream.hpp>
 #include <boost/asio/ssl/host_name_verification.hpp>
-#include <boost/asio/io_service.hpp>
+#include <boost/asio/io_context.hpp>
 #include <boost/asio/ip/tcp.hpp>
 #include <boost/asio/connect.hpp>
 #include <boost/asio/co_spawn.hpp>
@@ -21,7 +21,7 @@ namespace OpenAI
         ON
     };
 
-    typedef boost::asio::io_service Service;
+    typedef boost::asio::io_context Service;
     typedef boost::asio::ssl::context SslContext;
     typedef boost::asio::ip::tcp::socket Socket;
     typedef boost::asio::ssl::stream<Socket> SslSocket;
